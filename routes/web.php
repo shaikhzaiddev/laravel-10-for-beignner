@@ -17,9 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//first way 
+Route::get('/home',function(){
+ return view('home');
+});
 
-// Route::get('/home',function(){
-//  return view('home');
-// });
-
+//Second way 
 Route::view('/homepage','home');
