@@ -3,6 +3,7 @@
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
+//use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,65 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Custom facade
+class Facade{
+    public static function __callStatic($name,$args){
+        return app()->make(static::getFacadeAccessor())->$name(...$args);
+    }
+}
+
+class Maths{
+    public function add($a,$b){
+        return $a+$b;
+    }
+    public function sub($a,$b){
+        return $a-$b;
+    }
+    public function mul($a,$b){
+        return $a*$b;
+    }
+}
+
+class Bike{
+    public function start(){
+        return 'Starting!!!!!!';
+    }
+    public function stop(){
+        return 'Stoppping!!!!!!';
+    }
+}
+
+
+class MathsFacade extends Facade{
+    protected static function getFacadeAccessor(){
+        return 'maths';
+    }
+}
+
+
+class BikeFacade extends Facade{
+    protected static function getFacadeAccessor(){
+        return 'bike';
+    }
+}
+
+app()->bind('maths',function(){
+    return new Maths;
+});
+
+app()->bind('bike', function (){
+    return new Bike;
+});
+
+
 Route::get('/', function () {
+    //dd(MathsFacade::add(5, 3));
+    dd(BikeFacade::start());
+
+   
+    //Register in Service Container using service providers
+    //dd(app('whats_your_name'));
+
     $user = User::find(4);
    
     $user->name = 'Shaikh Developer';
@@ -25,7 +84,7 @@ Route::get('/', function () {
     //return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function () { dd(app('whats_your_name'));
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

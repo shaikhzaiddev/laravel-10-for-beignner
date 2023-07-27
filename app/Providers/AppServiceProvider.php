@@ -12,6 +12,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+        app()->bind('whats_your_name',function(){
+            return 'My name is rizwan';
+        });
     }
 
     /**
