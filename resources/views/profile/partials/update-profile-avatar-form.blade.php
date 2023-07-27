@@ -19,6 +19,7 @@
 
         <div>
             <x-input-label for="" :value="__('Name')" />
+            <image class="w-9 h-9 rounded" src="storage/{{ $user->avatar }}" />
             <x-text-input id="avatar" avatar="avatar" type="file" class="mt-1 block w-full" name="avatar" :value="old('avatar', $user->avatar)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
         </div>

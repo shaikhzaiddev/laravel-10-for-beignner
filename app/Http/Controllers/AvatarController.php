@@ -15,10 +15,16 @@ class AvatarController extends Controller
     
     public function update(AvatarUpdateRequest $request): RedirectResponse{  
         
-        $path = $request->file('avatar')->store('avatars');
+        //First way to upload file
+        //$path = $request->file('avatar')->store('avatars','public');
 
+        $path = Storage::disk('public')->putFile('avatars', $request->file('avatar'));
+
+        if($oldAvatar = $request->user()->avatar){
+            Storage::disk('public')->delete($oldAvatar);
+        }
         auth()->user()->update([
-            'avatar' => storage_path('app').'/'.$path,
+            'avatar' =>  $path,
         ]);
         
         //second way to upload image 
